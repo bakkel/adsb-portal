@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Statistieken — Bakkel's FR24 Portal</title>
+<title>Statistics — FR24 Portal</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -84,8 +84,8 @@ td.dur { color:var(--muted); }
 </head>
 <body>
 <header>
-  <h1>&#9992; FR24 Portal &mdash; <span>Statistieken</span></h1>
-  <a class="nav-link" href="/portal.html">&#8592; FR24 Portal</a>
+  <h1>&#9992; FR24 Portal &mdash; <span>Statistics</span></h1>
+  <a class="nav-link" href="/">&#8592; FR24 Portal</a>
   <a class="nav-link" href="/squawk.html">&#128276; Squawk</a>
   <span id="last-updated"></span>
 </header>
@@ -93,22 +93,22 @@ td.dur { color:var(--muted); }
 <main>
   <div class="cards">
     <div class="card green">
-      <div class="label">Vluchten vandaag</div>
+      <div class="label">Flights today</div>
       <div class="value" id="c-today">–</div>
       <div class="sub" id="c-active"></div>
     </div>
     <div class="card accent">
-      <div class="label">Totaal (alle tijd)</div>
+      <div class="label">Total (all time)</div>
       <div class="value" id="c-alltime">–</div>
       <div class="sub" id="c-since"></div>
     </div>
     <div class="card">
-      <div class="label">Max hoogte vandaag</div>
+      <div class="label">Max altitude today</div>
       <div class="value" id="c-maxalt">–</div>
       <div class="sub" id="c-maxalt-cs"></div>
     </div>
     <div class="card">
-      <div class="label">Meest actief uur</div>
+      <div class="label">Busiest hour</div>
       <div class="value" id="c-peak">–</div>
       <div class="sub" id="c-peak-sub"></div>
     </div>
@@ -116,39 +116,39 @@ td.dur { color:var(--muted); }
 
   <div class="charts-row">
     <div class="chart-box">
-      <h2>Vluchten per uur — vandaag</h2>
+      <h2>Flights per hour — today</h2>
       <div class="chart-wrap"><canvas id="chart-hours"></canvas></div>
     </div>
     <div class="chart-box">
-      <h2>Gemiddeld per dag deze week</h2>
+      <h2>Average per day this week</h2>
       <div class="chart-wrap"><canvas id="chart-week"></canvas></div>
     </div>
   </div>
 
   <div class="lists-row">
     <div class="list-box">
-      <h2>Top callsigns vandaag</h2>
+      <h2>Top callsigns today</h2>
       <div id="list-callsigns"></div>
     </div>
     <div class="list-box">
-      <h2>Top airlines vandaag</h2>
+      <h2>Top airlines today</h2>
       <div id="list-airlines"></div>
     </div>
   </div>
 
   <div class="trend-box">
-    <h2>Vluchten per dag — afgelopen 30 dagen</h2>
+    <h2>Flights per day — last 30 days</h2>
     <div class="trend-wrap"><canvas id="chart-trend"></canvas></div>
   </div>
 
   <div class="table-box">
-    <h2>Recente vluchten (laatste 50)</h2>
+    <h2>Recent flights (last 50)</h2>
     <div class="table-wrap">
       <table>
         <thead><tr>
           <th>Callsign</th><th>ICAO</th><th>Airline</th>
-          <th>Eerste contact</th><th>Duur</th>
-          <th>Max hoogte</th><th>Max snelh.</th><th>Squawk</th>
+          <th>First seen</th><th>Duration</th>
+          <th>Max altitude</th><th>Max speed</th><th>Squawk</th>
         </tr></thead>
         <tbody id="tbody-recent"></tbody>
       </table>
@@ -166,19 +166,19 @@ const CHART_DEFAULTS = {
   }
 };
 
-function fmt(n) { return n != null ? n.toLocaleString('nl') : '–'; }
-function fmtAlt(ft) { return ft ? ft.toLocaleString('nl') + ' ft' : '–'; }
+function fmt(n) { return n != null ? n.toLocaleString('en-GB') : '–'; }
+function fmtAlt(ft) { return ft ? ft.toLocaleString('en-GB') + ' ft' : '–'; }
 function fmtSpeed(kt) { return kt ? kt + ' kts' : '–'; }
 function fmtTime(ms) {
   if (!ms) return '–';
-  return new Date(ms).toLocaleString('nl', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  return new Date(ms).toLocaleString('en-GB', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
 }
 function fmtDur(ms1, ms2) {
   const s = Math.round((ms2 - ms1) / 1000);
   if (s < 60) return s + 's';
   const m = Math.floor(s / 60), sec = s % 60;
   if (m < 60) return m + 'm ' + sec + 's';
-  return Math.floor(m/60) + 'u ' + (m%60) + 'm';
+  return Math.floor(m/60) + 'h ' + (m%60) + 'm';
 }
 
 let chartHours, chartWeek, chartTrend;
@@ -211,7 +211,7 @@ function initCharts() {
 
 function renderRankList(containerId, items, maxVal) {
   const el = document.getElementById(containerId);
-  if (!items.length) { el.innerHTML = '<div style="color:var(--muted);font-size:12px">Nog geen data</div>'; return; }
+  if (!items.length) { el.innerHTML = '<div style="color:var(--muted);font-size:12px">No data yet</div>'; return; }
   el.innerHTML = items.map(([name, n], i) =>
     `<div class="rank-item">
       <span class="rank-num">${i+1}</span>
@@ -224,7 +224,7 @@ function renderRankList(containerId, items, maxVal) {
 
 function renderRecent(rows) {
   const tbody = document.getElementById('tbody-recent');
-  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="8" style="color:var(--muted);padding:12px">Nog geen historiek — wacht een paar minuten tot de recorder vluchten vastlegt.</td></tr>'; return; }
+  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="8" style="color:var(--muted);padding:12px">No history yet — wait a few minutes for the recorder to log flights.</td></tr>'; return; }
   tbody.innerHTML = rows.map(r => {
     const cs = r.callsign || '–';
     const csLink = r.callsign
@@ -252,9 +252,9 @@ async function load() {
     // Cards
     const t = data.today;
     document.getElementById('c-today').textContent   = fmt(t.total);
-    document.getElementById('c-active').textContent  = t.active + ' nu actief';
+    document.getElementById('c-active').textContent  = t.active + ' active now';
     document.getElementById('c-alltime').textContent = fmt(data.alltime.total);
-    document.getElementById('c-since').textContent   = data.alltime.first_date ? 'Vanaf ' + data.alltime.first_date : '';
+    document.getElementById('c-since').textContent   = data.alltime.first_date ? 'Since ' + data.alltime.first_date : '';
 
     if (t.max_alt) {
       document.getElementById('c-maxalt').textContent    = fmtAlt(t.max_alt.max_alt);
@@ -264,7 +264,7 @@ async function load() {
     const peakHour = t.by_hour.indexOf(Math.max(...t.by_hour));
     const peakVal  = t.by_hour[peakHour];
     document.getElementById('c-peak').textContent    = `${String(peakHour).padStart(2,'0')}:00`;
-    document.getElementById('c-peak-sub').textContent = peakVal + ' vluchten';
+    document.getElementById('c-peak-sub').textContent = peakVal + ' flights';
 
     // Hourly chart
     chartHours.data.labels   = t.by_hour.map((_,i) => `${String(i).padStart(2,'0')}:00`);
@@ -288,7 +288,7 @@ async function load() {
       const day = new Date(d).getDay();
       dow[day] += n; dowCount[day]++;
     }
-    const dowLabels = ['Zo','Ma','Di','Wo','Do','Vr','Za'];
+    const dowLabels = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     chartWeek.data.labels   = dowLabels;
     chartWeek.data.datasets[0].data = dow.map((s,i) => dowCount[i] ? Math.round(s/dowCount[i]) : 0);
     chartWeek.update();
@@ -302,10 +302,10 @@ async function load() {
     // Recent flights
     renderRecent(data.recent);
 
-    document.getElementById('last-updated').textContent = 'Bijgewerkt: ' + new Date().toLocaleTimeString('nl');
+    document.getElementById('last-updated').textContent = 'Updated: ' + new Date().toLocaleTimeString('en-GB');
   } catch(e) {
     console.error(e);
-    document.getElementById('last-updated').textContent = 'Fout bij laden';
+    document.getElementById('last-updated').textContent = 'Error loading data';
   }
 }
 

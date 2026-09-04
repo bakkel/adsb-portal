@@ -3,3 +3,7 @@
 *.db
 __pycache__/
 *.pyc
+
+# Persoonlijke infra-notities, niet publiek
+CLAUDE.md
+adsb-receiver-piaware5.md

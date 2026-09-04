@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Squawk codes — Bakkel's FR24 Portal</title>
+<title>Squawk Codes — FR24 Portal</title>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0d1117">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -97,129 +97,129 @@ p { color: var(--muted); margin-bottom: 16px; max-width: 620px; }
 <body>
 
 <header>
-  <h1>&#9992; FR24 Portal &mdash; <span>Squawk codes</span></h1>
-  <a href="/portal.html">&#8592; FR24 Portal</a>
-  <a href="/stats.html">&#128202; Statistieken</a>
+  <h1>&#9992; FR24 Portal &mdash; <span>Squawk Codes</span></h1>
+  <a href="/">&#8592; FR24 Portal</a>
+  <a href="/stats.html">&#128202; Statistics</a>
 </header>
 
 <main>
-  <h2>Squawk codes</h2>
+  <h2>Squawk Codes</h2>
 
   <div class="intro">
-    <p>Een <strong>squawk code</strong> is een viercijferige code (0000–7777, octaal) die een vliegtuig via zijn transponder uitzendt. Luchtverkeersleiding kent elke vlucht een unieke code toe om vliegtuigen te identificeren op de radar. Naast unieke codes zijn er een aantal <em>gereserveerde</em> codes met een vaste betekenis.</p>
+    <p>A <strong>squawk code</strong> is a four-digit code (0000–7777, octal) that an aircraft transmits via its transponder. Air traffic control assigns each flight a unique code to identify aircraft on radar. Besides unique codes, a number of <em>reserved</em> codes have a fixed meaning.</p>
   </div>
 
-  <h3>&#9888; Noodgevallen</h3>
+  <h3>&#9888; Emergencies</h3>
   <div class="codes">
 
     <div class="code-card emerg" id="sqk-7700">
       <div class="code-badge emerg">7700</div>
       <div class="code-body">
-        <div class="code-name">Algemene noodtoestand <span class="tag tag-emerg">Mayday</span></div>
-        <div class="code-desc">De piloot heeft een noodtoestand uitgeroepen. Dit kan door technische problemen, medische nood aan boord, brandstoftekort of andere levensbedreigende situaties. Vliegtuig ontvangt direct prioriteit van luchtverkeersleiding.</div>
+        <div class="code-name">General emergency <span class="tag tag-emerg">Mayday</span></div>
+        <div class="code-desc">The pilot has declared an emergency. This can be due to technical problems, a medical emergency on board, low fuel, or other life-threatening situations. The aircraft immediately receives priority from air traffic control.</div>
       </div>
     </div>
 
     <div class="code-card emerg" id="sqk-7600">
       <div class="code-badge emerg">7600</div>
       <div class="code-body">
-        <div class="code-name">Radiostoring <span class="tag tag-emerg">NORDO</span></div>
-        <div class="code-desc">Het vliegtuig kan geen radiocontact maken met luchtverkeersleiding (NORDO = No Radio). De piloot squawkt 7600 zodat de radarcontroleur weet dat communicatie niet mogelijk is. Er zijn vaste procedures voor hoe het vliegtuig in dit geval verder vliegt.</div>
+        <div class="code-name">Radio failure <span class="tag tag-emerg">NORDO</span></div>
+        <div class="code-desc">The aircraft cannot establish radio contact with air traffic control (NORDO = No Radio). The pilot squawks 7600 so the radar controller knows communication isn't possible. Fixed procedures exist for how the aircraft continues its flight in this case.</div>
       </div>
     </div>
 
     <div class="code-card emerg" id="sqk-7500">
       <div class="code-badge emerg">7500</div>
       <div class="code-body">
-        <div class="code-name">Kaping <span class="tag tag-emerg">Hijack</span></div>
-        <div class="code-desc">Het vliegtuig wordt gekaapt of er is sprake van ongeoorloofde inmenging aan boord. Dit is het ernstigste signaal in de luchtvaart. Autoriteiten worden direct gealarmeerd en het vliegtuig wordt nauwlettend gevolgd.</div>
+        <div class="code-name">Hijack <span class="tag tag-emerg">Hijack</span></div>
+        <div class="code-desc">The aircraft is being hijacked or there is unlawful interference on board. This is the most serious signal in aviation. Authorities are alerted immediately and the aircraft is tracked closely.</div>
       </div>
     </div>
 
   </div>
 
-  <h3>&#9992; Standaard VFR- en IFR-codes</h3>
+  <h3>&#9992; Standard VFR and IFR Codes</h3>
   <div class="codes">
 
     <div class="code-card" id="sqk-7000">
       <div class="code-badge green">7000</div>
       <div class="code-body">
-        <div class="code-name">VFR-vlucht <span class="tag tag-vfr">VFR</span></div>
-        <div class="code-desc">Standaard squawk voor visuele vluchten (Visual Flight Rules) in Europees luchtruim zonder door ATC toegewezen code. Veel kleine vliegtuigen en zweefvliegtuigen gebruiken deze code.</div>
+        <div class="code-name">VFR flight <span class="tag tag-vfr">VFR</span></div>
+        <div class="code-desc">Standard squawk for Visual Flight Rules flights in European airspace without an ATC-assigned code. Many light aircraft and gliders use this code.</div>
       </div>
     </div>
 
     <div class="code-card" id="sqk-2000">
       <div class="code-badge info">2000</div>
       <div class="code-body">
-        <div class="code-name">Binnenkomst gecontroleerd luchtruim <span class="tag tag-ifr">IFR</span></div>
-        <div class="code-desc">Een vliegtuig dat gecontroleerd luchtruim binnenvliegt zonder dat ATC al een code heeft toegewezen. Zodra de luchtverkeersleiding contact maakt, wordt een unieke code gegeven.</div>
+        <div class="code-name">Entering controlled airspace <span class="tag tag-ifr">IFR</span></div>
+        <div class="code-desc">An aircraft entering controlled airspace before ATC has assigned a code. Once air traffic control makes contact, a unique code is issued.</div>
       </div>
     </div>
 
     <div class="code-card" id="sqk-1000">
       <div class="code-badge info">1000</div>
       <div class="code-body">
-        <div class="code-name">IFR zonder toegewezen code <span class="tag tag-ifr">IFR</span></div>
-        <div class="code-desc">Gebruikt in Europees luchtruim voor IFR-vluchten (Instrument Flight Rules) die nog geen individuele squawk hebben ontvangen van luchtverkeersleiding. In de praktijk zelden lang zichtbaar.</div>
+        <div class="code-name">IFR without assigned code <span class="tag tag-ifr">IFR</span></div>
+        <div class="code-desc">Used in European airspace for IFR flights (Instrument Flight Rules) that have not yet received an individual squawk from air traffic control. In practice, rarely visible for long.</div>
       </div>
     </div>
 
     <div class="code-card" id="sqk-1200">
       <div class="code-badge green">1200</div>
       <div class="code-body">
-        <div class="code-name">VFR-vlucht Noord-Amerika <span class="tag tag-vfr">VFR</span></div>
-        <div class="code-desc">Het Noord-Amerikaanse equivalent van 7000: standaard VFR-squawk in de VS en Canada. Boven de Atlantische Oceaan soms zichtbaar bij vluchten die uit de VS vertrekken.</div>
+        <div class="code-name">VFR flight, North America <span class="tag tag-vfr">VFR</span></div>
+        <div class="code-desc">The North American equivalent of 7000: standard VFR squawk in the US and Canada. Sometimes visible over the Atlantic on flights departing from the US.</div>
       </div>
     </div>
 
     <div class="code-card" id="sqk-0000">
       <div class="code-badge">0000</div>
       <div class="code-body">
-        <div class="code-name">Niet toegewezen</div>
-        <div class="code-desc">De standaardwaarde bij het opstarten van een transponder, of wanneer nog geen code is ingevoerd. Een vliegtuig met squawk 0000 heeft de transponder waarschijnlijk net ingeschakeld of is de code aan het wijzigen.</div>
+        <div class="code-name">Not assigned</div>
+        <div class="code-desc">The default value on transponder startup, or when no code has been entered yet. An aircraft squawking 0000 has likely just powered on its transponder or is in the process of changing codes.</div>
       </div>
     </div>
 
   </div>
 
-  <h3>&#9992; Militaire codes</h3>
+  <h3>&#9992; Military Codes</h3>
   <div class="codes">
 
     <div class="code-card" id="sqk-7001">
       <div class="code-badge warn">7001</div>
       <div class="code-body">
-        <div class="code-name">Militaire vlucht op hoge snelheid <span class="tag tag-mil">Militair</span></div>
-        <div class="code-desc">Gebruikt door militaire straaljagers die supersonisch vliegen of hoge snelheden bereiken. In Nederland en omgeving zichtbaar bij F-35's en F-16's van de Koninklijke Luchtmacht.</div>
+        <div class="code-name">Military high-speed flight <span class="tag tag-mil">Military</span></div>
+        <div class="code-desc">Used by military jets flying supersonic or at high speed. Commonly seen from fighter jets operated by air forces during training flights.</div>
       </div>
     </div>
 
     <div class="code-card" id="sqk-7004">
       <div class="code-badge warn">7004</div>
       <div class="code-body">
-        <div class="code-name">Militaire kunstvlucht <span class="tag tag-mil">Militair</span></div>
-        <div class="code-desc">Oefenvluchten en kunstvluchtdemonstraties door militaire toestellen. Zichtbaar bij airshows en oefeningen boven Nederland of de Noordzee.</div>
+        <div class="code-name">Military aerobatics <span class="tag tag-mil">Military</span></div>
+        <div class="code-desc">Training flights and aerobatic demonstrations by military aircraft. Visible at airshows and exercises.</div>
       </div>
     </div>
 
     <div class="code-card" id="sqk-7777">
       <div class="code-badge warn">7777</div>
       <div class="code-body">
-        <div class="code-name">Militaire onderschepping <span class="tag tag-mil">Militair</span></div>
-        <div class="code-desc">Een militair toestel is actief bezig met het onderscheppen van een ander vliegtuig. Zeer zeldzaam in normale omstandigheden.</div>
+        <div class="code-name">Military interception <span class="tag tag-mil">Military</span></div>
+        <div class="code-desc">A military aircraft is actively intercepting another aircraft. Very rare under normal circumstances.</div>
       </div>
     </div>
 
   </div>
 
-  <h3>&#128269; Overige bijzondere codes</h3>
+  <h3>&#128269; Other Special Codes</h3>
   <div class="codes">
 
     <div class="code-card" id="sqk-7003">
       <div class="code-badge warn">7003</div>
       <div class="code-body">
-        <div class="code-name">Luchtmacht één <span class="tag tag-mil">Militair</span></div>
-        <div class="code-desc">Gereserveerd voor vluchten met staatshoofden aan boord (zoals Air Force One in de VS). In Europa gereserveerd voor soortgelijke staatsvluchten.</div>
+        <div class="code-name">Head of state flight <span class="tag tag-mil">Military</span></div>
+        <div class="code-desc">Reserved for flights carrying heads of state (such as Air Force One in the US). Reserved for similar state flights elsewhere too.</div>
       </div>
     </div>
 
@@ -227,33 +227,33 @@ p { color: var(--muted); margin-bottom: 16px; max-width: 620px; }
       <div class="code-badge info">0021</div>
       <div class="code-body">
         <div class="code-name">Search and Rescue</div>
-        <div class="code-desc">Gebruikt door SAR-vluchten (Search and Rescue) tijdens reddingsoperaties op zee of land. In Nederland zichtbaar bij kustwachthelikopters en reddingsvluchten boven de Noordzee.</div>
+        <div class="code-desc">Used by SAR flights during search-and-rescue operations at sea or on land. Commonly seen from coast guard helicopters and rescue flights over coastal waters.</div>
       </div>
     </div>
 
   </div>
 
-  <h3>&#128260; Individueel toegewezen codes</h3>
+  <h3>&#128260; Individually Assigned Codes</h3>
   <div class="codes">
     <div class="code-card" id="sqk-assigned">
       <div class="code-badge info" style="font-size:13px;letter-spacing:0">0001–7777</div>
       <div class="code-body">
-        <div class="code-name">ATC-toegewezen code</div>
+        <div class="code-name">ATC-assigned code</div>
         <div class="code-desc">
-          Verreweg de meeste squawk codes die je ziet — zoals 5356, 3421 of 2714 — zijn <strong>individueel toegewezen door luchtverkeersleiding</strong>. Ze hebben geen vaste betekenis: ATC geeft elke vlucht bij aanvang een unieke code zodat het vliegtuig op de radar te onderscheiden is van alle andere vluchten in hetzelfde luchtruim.<br><br>
-          De code is tijdelijk: als een vlucht het luchtruim verlaat of het radarcontact eindigt, wordt de code vrijgegeven en kan hij voor een andere vlucht opnieuw gebruikt worden. Elke regio/ACC (Area Control Centre) heeft een eigen blok codes toegewezen gekregen. In het Nederlandse luchtruim (Amsterdam ACC) zijn dit typisch codes in bepaalde bereiken — maar dit is niet zichtbaar in de code zelf.<br><br>
-          <strong>Wat je kunt afleiden:</strong><br>
-          • Code is <em>niet</em> 7700/7600/7500 → geen noodsituatie<br>
-          • Code is <em>niet</em> 7000/2000/1200 → vlucht heeft actief radarcontact met ATC<br>
-          • Code verandert tijdens vlucht → vliegtuig is overgedragen aan een andere sector of ACC
+          By far most squawk codes you'll see — like 5356, 3421 or 2714 — are <strong>individually assigned by air traffic control</strong>. They have no fixed meaning: ATC gives each flight a unique code at the start so the aircraft can be distinguished on radar from every other flight in the same airspace.<br><br>
+          The code is temporary: once a flight leaves the airspace or radar contact ends, the code is released and can be reused for another flight. Each region/ACC (Area Control Centre) has its own block of codes assigned — but this isn't visible from the code itself.<br><br>
+          <strong>What you can infer:</strong><br>
+          • Code is <em>not</em> 7700/7600/7500 → no emergency<br>
+          • Code is <em>not</em> 7000/2000/1200 → flight has active radar contact with ATC<br>
+          • Code changes during the flight → aircraft has been handed off to another sector or ACC
         </div>
       </div>
     </div>
   </div>
 
-  <h3>&#128276; Hoe lees je een squawk code?</h3>
-  <p>Squawk codes zijn <strong>octale getallen</strong>: de cijfers lopen van 0 t/m 7 (geen 8 of 9). Er zijn daardoor 4.096 mogelijke codes (8⁴). De meeste zijn tijdelijk door ATC toegewezen — alleen de codes hierboven in de gekleurde blokken hebben een vaste gereserveerde betekenis.</p>
-  <p>De drie noodcodes (7500, 7600, 7700) zijn in de portal <span style="color:var(--red);font-weight:600">rood gemarkeerd</span> op de kaart en in de tabel. Een klik op een squawk code in de popup brengt je naar de bijbehorende uitleg op deze pagina — bij een gewone ATC-code kom je terecht in de sectie hierboven.</p>
+  <h3>&#128276; How to Read a Squawk Code</h3>
+  <p>Squawk codes are <strong>octal numbers</strong>: the digits range from 0 to 7 (no 8 or 9). This gives 4,096 possible codes (8⁴). Most are temporarily assigned by ATC — only the codes above in the colored blocks have a fixed reserved meaning.</p>
+  <p>The three emergency codes (7500, 7600, 7700) are <span style="color:var(--red);font-weight:600">highlighted in red</span> on the map and in the table. Clicking a squawk code in the popup takes you to the matching explanation on this page — a regular ATC code takes you to the section above.</p>
 </main>
 
 </body>

@@ -1,7 +1,7 @@
 {
-  "name": "ADS-B Portal — Bakkel",
+  "name": "ADS-B Portal",
   "short_name": "ADS-B Portal",
-  "description": "Live vliegtuigradar op basis van een eigen ADS-B ontvanger",
+  "description": "Live aircraft radar powered by your own ADS-B receiver",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any",

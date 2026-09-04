@@ -1,43 +1,43 @@
 # ADS-B Portal
 
-Een zelfgehoste webportal voor je eigen ADS-B ontvanger op een Raspberry Pi. Toont live vliegtuigposities op een interactieve kaart op basis van lokale ADS-B data.
+A self-hosted web portal for your own ADS-B receiver on a Raspberry Pi. Shows live aircraft positions on an interactive map based on local ADS-B data.
 
-## Functionaliteiten
+## Features
 
-- **Live kaart** (`portal.html`) — Leaflet.js met Esri World Dark Gray Canvas tiles, vliegtuigpictogrammen met rotatie, gekleurd per hoogte
-- **Hoogte filter** — legendabanden zijn klikbare toggles; verberg/toon vliegtuigen per hoogtebereik op kaart en tabel; "↺ Alles" reset; op mobiel standaard ingeklapt
-- **10-minuten trails** — positiegeschiedenis als polylijnen per vliegtuig
-- **Vliegtuigtabel** — kolommen: Callsign · ICAO · Airline · Hoogte (meters); klik om het popup op de kaart te openen
-- **Popup** — callsign (link → flightradar24.com), ICAO, airline, hoogte (m), snelheid (km/u), koers, squawk (klikbaar)
-- **Squawk codes pagina** (`squawk.html`) — uitleg over nood-, VFR-, IFR- en militaire codes; popup linkt direct naar de juiste code
-- **Vliegveld markeringen** — NL/BE vliegvelden met toggle-knop
-- **Nood squawk markering** — 7700 / 7600 / 7500 rood gemarkeerd op kaart en tabel
-- **SQLite recorder** — elke waarneming opgeslagen met max hoogte, max snelheid, callsign en airline
-- **Statistiekenpagina** (`stats.html`) — vluchten per uur, 30-daagse trend, top callsigns/airlines, recente vluchten (Chart.js)
-- **Feed statusbalk** — laatste 5 regels uit het FR24 feeder systemd journal
-- **PWA** — installeerbaar als home screen app op iPhone; full screen, dark statusbalk
-- **Mobielvriendelijk** — responsieve layout, compacte legenda
+- **Live map** (`index.html`) — Leaflet.js with Esri World Dark Gray Canvas tiles, aircraft icons with rotation, colored by altitude
+- **Altitude filter** — legend bands are clickable toggles; show/hide aircraft per altitude band on the map and table; "↺ All" resets; collapsed by default on mobile
+- **10-minute trails** — position history as polylines per aircraft
+- **Aircraft table** — columns: Callsign · ICAO · Airline · Altitude (meters); click to open the popup on the map
+- **Popup** — callsign (link → flightradar24.com), ICAO, airline, altitude (m), speed (km/h), heading, squawk (clickable)
+- **Squawk codes page** (`squawk.html`) — explains emergency, VFR, IFR and military codes; popup links directly to the matching code
+- **Airport markers** — nearby airports with a toggle button (defaults to Dutch/Belgian airports — edit the `AIRPORTS` list in `index.html` for your own region)
+- **Emergency squawk highlighting** — 7700 / 7600 / 7500 highlighted in red on the map and table
+- **SQLite recorder** — every sighting stored with max altitude, max speed, callsign and airline
+- **Statistics page** (`stats.html`) — flights per hour, 30-day trend, top callsigns/airlines, recent flights (Chart.js)
+- **Feed status bar** — last 5 lines from the FR24 feeder systemd journal
+- **PWA** — installable as a home screen app on iPhone; full screen, dark status bar
+- **Mobile-friendly** — responsive layout, compact legend
 
-## Architectuur
+## Architecture
 
 ```
 Raspberry Pi
-├── fr24feed (officiële FR24 feeder)     :8754  ← ADS-B ontvanger data
-├── server.py (deze portal)              :8081  ← serveert de portal
-│   ├── GET /api/flights  → proxy naar :8754/flights.json
-│   ├── GET /api/logs     → proxy naar :8754/logs.bin
-│   └── GET /api/stats    → SQLite aggregaten
-└── fr24portal.db         (SQLite, automatisch aangemaakt)
+├── fr24feed (official FR24 feeder)      :8754  ← ADS-B receiver data
+├── server.py (this portal)              :8081  ← serves the portal
+│   ├── GET /api/flights  → proxy to :8754/flights.json
+│   ├── GET /api/logs     → proxy to :8754/logs.bin
+│   └── GET /api/stats    → SQLite aggregates
+└── fr24portal.db         (SQLite, created automatically)
 ```
 
-De portal wordt geserveerd als statische HTML vanuit `static/` met een lichtgewicht Python HTTP server. Geen frameworks, geen build stap.
+The portal is served as static HTML from `static/` by a lightweight Python HTTP server. No frameworks, no build step.
 
-## Vereisten
+## Requirements
 
-- Raspberry Pi met de officiële FR24 feeder (`fr24feed`) op poort 8754
+- Raspberry Pi with the official FR24 feeder (`fr24feed`) on port 8754
 - Python 3.7+
 
-## Installatie
+## Installation
 
 ```bash
 git clone <repo-url> adsb-portal
@@ -53,66 +53,67 @@ sudo systemctl enable adsb-portal
 sudo systemctl start adsb-portal
 ```
 
+Edit the `User` and `WorkingDirectory` in `adsb-portal.service` to match your own system user and install path first.
+
 ### Deployment
 
-`deploy.sh` synct dit project via `rsync` over SSH naar de Pi en herstart de service:
+`deploy.sh` syncs this project to the Pi via `rsync` over SSH and restarts the service:
 
 ```bash
 ./deploy.sh
 ```
 
-Pas `REMOTE`, `REMOTE_DIR` en `SERVICE` bovenaan het script aan naar je eigen situatie.
+Adjust `REMOTE`, `REMOTE_DIR` and `SERVICE` at the top of the script to match your own setup.
 
-## Configuratie
+## Configuration
 
-Bovenaan `server.py`:
+At the top of `server.py`:
 
-| Variabele | Standaard | Beschrijving |
+| Variable | Default | Description |
 |---|---|---|
-| `PORT` | `8081` | Poort waarop de portal luistert |
-| `FR24_BASE` | `http://localhost:8754` | Lokaal FR24 feeder adres |
+| `PORT` | `8081` | Port the portal listens on |
+| `FR24_BASE` | `http://localhost:8754` | Local FR24 feeder address |
 
-Kaartcentrum en zoom staan bovenaan `static/portal.html`:
+Map center and zoom are set at the top of `static/index.html`:
 
 ```javascript
-const MAP_CENTER = [51.8133, 4.6903]; // ← locatie van je station [lat, lon]
-const MAP_ZOOM   = 8;                 // ← startzoommiveau
+const MAP_CENTER = [51.8133, 4.6903]; // ← your station location [lat, lon]
+const MAP_ZOOM   = 8;                 // ← initial zoom level
 ```
 
-## Dataformaat
+## Data format
 
-De FR24 feeder stelt vliegtuigen beschikbaar als JSON object, gekeyed op ICAO hex. Elke waarde is een array:
+The FR24 feeder exposes aircraft as a JSON object, keyed by ICAO hex. Each value is an array:
 
 ```
 [icao, lat, lon, track, alt_ft, speed_kts, squawk, ?, ?, ?, unix_ts, ?, ?, ?, on_ground, vrate_fpm, callsign]
  [0]   [1]  [2]  [3]    [4]     [5]        [6]                        [10]              [14]       [15]      [16]
 ```
 
-## Bestandsstructuur
+## Project structure
 
 ```
 adsb-portal/
 ├── server.py               Python HTTP server + SQLite recorder
-├── adsb-portal.service      systemd unit bestand
-├── deploy.sh               rsync-over-SSH deploy naar de Pi
+├── adsb-portal.service      systemd unit file
+├── deploy.sh               rsync-over-SSH deploy to the Pi
 ├── static/
-│   ├── index.html          Landingspagina
-│   ├── portal.html         Live kaart (kaart + tabel + popup + hoogte filter + feed log)
-│   ├── stats.html          Statistieken dashboard (Chart.js)
-│   ├── squawk.html         Uitleg squawk codes
+│   ├── index.html          Live map (home page: map + table + popup + altitude filter + feed log)
+│   ├── stats.html          Statistics dashboard (Chart.js)
+│   ├── squawk.html         Squawk code explanations
 │   ├── manifest.json       PWA manifest (home screen app)
 │   ├── icon-180.png        Apple touch icon
 │   ├── icon-192.png        PWA icon
-│   └── icon-512.png        PWA icon (groot)
-└── fr24portal.db           SQLite database (automatisch aangemaakt, niet in repo)
+│   └── icon-512.png        PWA icon (large)
+└── fr24portal.db           SQLite database (created automatically, not in repo)
 ```
 
-## Gebruik
+## Usage
 
-Open `http://<pi-ip>:8081` in een browser voor de landingspagina, of direct `/portal.html` voor de kaart. Klik op een vliegtuig op de kaart of in de tabel om een detailpopup te openen. De statistiekenpagina is bereikbaar via `/stats.html`.
+Open `http://<pi-ip>:8081` in a browser for the live map. Click an aircraft on the map or in the table to open a detail popup. The statistics page is available at `/stats.html`.
 
-### Installeren als iPhone app (PWA)
+### Installing as an iPhone app (PWA)
 
-1. Open de portal in **Safari** op je iPhone
-2. Tik op het **deelicoon** (↑) → **"Zet op beginscherm"**
-3. Bevestig — de portal verschijnt als volledig scherm app op je beginscherm
+1. Open the portal in **Safari** on your iPhone
+2. Tap the **share icon** (↑) → **"Add to Home Screen"**
+3. Confirm — the portal now appears as a full-screen app on your home screen
