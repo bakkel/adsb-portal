@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2026-09-04
+- Added an MIT `LICENSE`, now that the repository is public.
 - Added a footer link to the GitHub repo on all pages, and made the repository public.
 - Rewrote git history to permanently remove `CLAUDE.md` and `adsb-receiver-piaware5.md` from all past commits (they had only been untracked going forward, not purged from history) — required before making the repo public, since those files contained a real FR24 sharing key, FlightAware feeder/site ID, GPS location and SSH details. History was force-pushed; commit hashes changed as a result.
 - Added an alternative Docker deployment: `Dockerfile` + `docker-compose.yml` (host networking, so the container reaches `fr24feed` on `localhost:8754` without extra config) plus a `.dockerignore` that excludes the private infra notes. `server.py` now reads `PORT`, `FR24_BASE` and `DB_PATH` from environment variables (falling back to the existing defaults), so the same script runs unchanged on bare metal or in a container. This does not replace the existing systemd/rsync deployment — it's offered as an option for self-hosters who prefer Docker.
