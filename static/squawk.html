@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Squawk codes — Bakkel's FR24 Portal</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #0d1117;
+  --bg2:    #161b22;
+  --bg3:    #21262d;
+  --border: #30363d;
+  --text:   #e6edf3;
+  --muted:  #8b949e;
+  --accent: #388bfd;
+  --green:  #3fb950;
+  --yellow: #d29922;
+  --red:    #f85149;
+}
+
+html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.6; }
+
+header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 8px 16px; height: 48px;
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+}
+header h1 { font-size: 16px; font-weight: 600; white-space: nowrap; }
+header h1 span { color: var(--accent); }
+header a { color: var(--muted); text-decoration: none; font-size: 12px; padding: 4px 10px; border: 1px solid var(--border); border-radius: 6px; white-space: nowrap; }
+header a:hover { color: var(--text); border-color: var(--muted); }
+
+main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+
+h2 { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 32px 0 12px; }
+
+p { color: var(--muted); margin-bottom: 16px; max-width: 620px; }
+
+.intro { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 32px; }
+.intro p { margin: 0; }
+
+.codes { display: flex; flex-direction: column; gap: 8px; }
+
+.code-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 14px 16px; display: flex; gap: 16px; align-items: flex-start;
+  scroll-margin-top: 72px;
+}
+.code-card:target { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.code-card.emerg { border-color: var(--red); }
+.code-card.emerg:target { box-shadow: 0 0 0 1px var(--red); }
+
+.code-badge {
+  font-family: monospace; font-size: 18px; font-weight: 700;
+  min-width: 56px; padding: 6px 10px; border-radius: 6px;
+  text-align: center; flex-shrink: 0; letter-spacing: 1px;
+  background: var(--bg3); color: var(--text);
+}
+.code-badge.emerg { background: rgba(248,81,73,.15); color: var(--red); }
+.code-badge.warn  { background: rgba(210,153,34,.12); color: var(--yellow); }
+.code-badge.info  { background: rgba(56,139,253,.1);  color: var(--accent); }
+.code-badge.green { background: rgba(63,185,80,.1);   color: var(--green); }
+
+.code-body { flex: 1; min-width: 0; }
+.code-name { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+.code-desc { color: var(--muted); font-size: 13px; }
+
+.tag {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  padding: 1px 7px; border-radius: 10px; margin-left: 8px;
+  vertical-align: middle; text-transform: uppercase; letter-spacing: .04em;
+}
+.tag-emerg { background: rgba(248,81,73,.2);  color: var(--red);    border: 1px solid rgba(248,81,73,.4); }
+.tag-mil   { background: rgba(210,153,34,.2); color: var(--yellow); border: 1px solid rgba(210,153,34,.4); }
+.tag-vfr   { background: rgba(63,185,80,.15); color: var(--green);  border: 1px solid rgba(63,185,80,.4); }
+.tag-ifr   { background: rgba(56,139,253,.15);color: var(--accent); border: 1px solid rgba(56,139,253,.4); }
+
+@media (max-width: 600px) {
+  .code-badge { font-size: 15px; min-width: 48px; padding: 5px 8px; }
+  main { padding: 20px 12px 48px; }
+}
+
+@media (max-width: 768px) {
+  header { flex-wrap: wrap; height: auto; min-height: 44px; padding: 6px 10px; gap: 6px; }
+  header h1 { font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>&#9992; FR24 Portal &mdash; <span>Squawk codes</span></h1>
+  <a href="/portal.html">&#8592; FR24 Portal</a>
+  <a href="/stats.html">&#128202; Statistieken</a>
+</header>
+
+<main>
+  <h2>Squawk codes</h2>
+
+  <div class="intro">
+    <p>Een <strong>squawk code</strong> is een viercijferige code (0000–7777, octaal) die een vliegtuig via zijn transponder uitzendt. Luchtverkeersleiding kent elke vlucht een unieke code toe om vliegtuigen te identificeren op de radar. Naast unieke codes zijn er een aantal <em>gereserveerde</em> codes met een vaste betekenis.</p>
+  </div>
+
+  <h3>&#9888; Noodgevallen</h3>
+  <div class="codes">
+
+    <div class="code-card emerg" id="sqk-7700">
+      <div class="code-badge emerg">7700</div>
+      <div class="code-body">
+        <div class="code-name">Algemene noodtoestand <span class="tag tag-emerg">Mayday</span></div>
+        <div class="code-desc">De piloot heeft een noodtoestand uitgeroepen. Dit kan door technische problemen, medische nood aan boord, brandstoftekort of andere levensbedreigende situaties. Vliegtuig ontvangt direct prioriteit van luchtverkeersleiding.</div>
+      </div>
+    </div>
+
+    <div class="code-card emerg" id="sqk-7600">
+      <div class="code-badge emerg">7600</div>
+      <div class="code-body">
+        <div class="code-name">Radiostoring <span class="tag tag-emerg">NORDO</span></div>
+        <div class="code-desc">Het vliegtuig kan geen radiocontact maken met luchtverkeersleiding (NORDO = No Radio). De piloot squawkt 7600 zodat de radarcontroleur weet dat communicatie niet mogelijk is. Er zijn vaste procedures voor hoe het vliegtuig in dit geval verder vliegt.</div>
+      </div>
+    </div>
+
+    <div class="code-card emerg" id="sqk-7500">
+      <div class="code-badge emerg">7500</div>
+      <div class="code-body">
+        <div class="code-name">Kaping <span class="tag tag-emerg">Hijack</span></div>
+        <div class="code-desc">Het vliegtuig wordt gekaapt of er is sprake van ongeoorloofde inmenging aan boord. Dit is het ernstigste signaal in de luchtvaart. Autoriteiten worden direct gealarmeerd en het vliegtuig wordt nauwlettend gevolgd.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>&#9992; Standaard VFR- en IFR-codes</h3>
+  <div class="codes">
+
+    <div class="code-card" id="sqk-7000">
+      <div class="code-badge green">7000</div>
+      <div class="code-body">
+        <div class="code-name">VFR-vlucht <span class="tag tag-vfr">VFR</span></div>
+        <div class="code-desc">Standaard squawk voor visuele vluchten (Visual Flight Rules) in Europees luchtruim zonder door ATC toegewezen code. Veel kleine vliegtuigen en zweefvliegtuigen gebruiken deze code.</div>
+      </div>
+    </div>
+
+    <div class="code-card" id="sqk-2000">
+      <div class="code-badge info">2000</div>
+      <div class="code-body">
+        <div class="code-name">Binnenkomst gecontroleerd luchtruim <span class="tag tag-ifr">IFR</span></div>
+        <div class="code-desc">Een vliegtuig dat gecontroleerd luchtruim binnenvliegt zonder dat ATC al een code heeft toegewezen. Zodra de luchtverkeersleiding contact maakt, wordt een unieke code gegeven.</div>
+      </div>
+    </div>
+
+    <div class="code-card" id="sqk-1000">
+      <div class="code-badge info">1000</div>
+      <div class="code-body">
+        <div class="code-name">IFR zonder toegewezen code <span class="tag tag-ifr">IFR</span></div>
+        <div class="code-desc">Gebruikt in Europees luchtruim voor IFR-vluchten (Instrument Flight Rules) die nog geen individuele squawk hebben ontvangen van luchtverkeersleiding. In de praktijk zelden lang zichtbaar.</div>
+      </div>
+    </div>
+
+    <div class="code-card" id="sqk-1200">
+      <div class="code-badge green">1200</div>
+      <div class="code-body">
+        <div class="code-name">VFR-vlucht Noord-Amerika <span class="tag tag-vfr">VFR</span></div>
+        <div class="code-desc">Het Noord-Amerikaanse equivalent van 7000: standaard VFR-squawk in de VS en Canada. Boven de Atlantische Oceaan soms zichtbaar bij vluchten die uit de VS vertrekken.</div>
+      </div>
+    </div>
+
+    <div class="code-card" id="sqk-0000">
+      <div class="code-badge">0000</div>
+      <div class="code-body">
+        <div class="code-name">Niet toegewezen</div>
+        <div class="code-desc">De standaardwaarde bij het opstarten van een transponder, of wanneer nog geen code is ingevoerd. Een vliegtuig met squawk 0000 heeft de transponder waarschijnlijk net ingeschakeld of is de code aan het wijzigen.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>&#9992; Militaire codes</h3>
+  <div class="codes">
+
+    <div class="code-card" id="sqk-7001">
+      <div class="code-badge warn">7001</div>
+      <div class="code-body">
+        <div class="code-name">Militaire vlucht op hoge snelheid <span class="tag tag-mil">Militair</span></div>
+        <div class="code-desc">Gebruikt door militaire straaljagers die supersonisch vliegen of hoge snelheden bereiken. In Nederland en omgeving zichtbaar bij F-35's en F-16's van de Koninklijke Luchtmacht.</div>
+      </div>
+    </div>
+
+    <div class="code-card" id="sqk-7004">
+      <div class="code-badge warn">7004</div>
+      <div class="code-body">
+        <div class="code-name">Militaire kunstvlucht <span class="tag tag-mil">Militair</span></div>
+        <div class="code-desc">Oefenvluchten en kunstvluchtdemonstraties door militaire toestellen. Zichtbaar bij airshows en oefeningen boven Nederland of de Noordzee.</div>
+      </div>
+    </div>
+
+    <div class="code-card" id="sqk-7777">
+      <div class="code-badge warn">7777</div>
+      <div class="code-body">
+        <div class="code-name">Militaire onderschepping <span class="tag tag-mil">Militair</span></div>
+        <div class="code-desc">Een militair toestel is actief bezig met het onderscheppen van een ander vliegtuig. Zeer zeldzaam in normale omstandigheden.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>&#128269; Overige bijzondere codes</h3>
+  <div class="codes">
+
+    <div class="code-card" id="sqk-7003">
+      <div class="code-badge warn">7003</div>
+      <div class="code-body">
+        <div class="code-name">Luchtmacht één <span class="tag tag-mil">Militair</span></div>
+        <div class="code-desc">Gereserveerd voor vluchten met staatshoofden aan boord (zoals Air Force One in de VS). In Europa gereserveerd voor soortgelijke staatsvluchten.</div>
+      </div>
+    </div>
+
+    <div class="code-card" id="sqk-0021">
+      <div class="code-badge info">0021</div>
+      <div class="code-body">
+        <div class="code-name">Search and Rescue</div>
+        <div class="code-desc">Gebruikt door SAR-vluchten (Search and Rescue) tijdens reddingsoperaties op zee of land. In Nederland zichtbaar bij kustwachthelikopters en reddingsvluchten boven de Noordzee.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>&#128260; Individueel toegewezen codes</h3>
+  <div class="codes">
+    <div class="code-card" id="sqk-assigned">
+      <div class="code-badge info" style="font-size:13px;letter-spacing:0">0001–7777</div>
+      <div class="code-body">
+        <div class="code-name">ATC-toegewezen code</div>
+        <div class="code-desc">
+          Verreweg de meeste squawk codes die je ziet — zoals 5356, 3421 of 2714 — zijn <strong>individueel toegewezen door luchtverkeersleiding</strong>. Ze hebben geen vaste betekenis: ATC geeft elke vlucht bij aanvang een unieke code zodat het vliegtuig op de radar te onderscheiden is van alle andere vluchten in hetzelfde luchtruim.<br><br>
+          De code is tijdelijk: als een vlucht het luchtruim verlaat of het radarcontact eindigt, wordt de code vrijgegeven en kan hij voor een andere vlucht opnieuw gebruikt worden. Elke regio/ACC (Area Control Centre) heeft een eigen blok codes toegewezen gekregen. In het Nederlandse luchtruim (Amsterdam ACC) zijn dit typisch codes in bepaalde bereiken — maar dit is niet zichtbaar in de code zelf.<br><br>
+          <strong>Wat je kunt afleiden:</strong><br>
+          • Code is <em>niet</em> 7700/7600/7500 → geen noodsituatie<br>
+          • Code is <em>niet</em> 7000/2000/1200 → vlucht heeft actief radarcontact met ATC<br>
+          • Code verandert tijdens vlucht → vliegtuig is overgedragen aan een andere sector of ACC
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>&#128276; Hoe lees je een squawk code?</h3>
+  <p>Squawk codes zijn <strong>octale getallen</strong>: de cijfers lopen van 0 t/m 7 (geen 8 of 9). Er zijn daardoor 4.096 mogelijke codes (8⁴). De meeste zijn tijdelijk door ATC toegewezen — alleen de codes hierboven in de gekleurde blokken hebben een vaste gereserveerde betekenis.</p>
+  <p>De drie noodcodes (7500, 7600, 7700) zijn in de portal <span style="color:var(--red);font-weight:600">rood gemarkeerd</span> op de kaart en in de tabel. Een klik op een squawk code in de popup brengt je naar de bijbehorende uitleg op deze pagina — bij een gewone ATC-code kom je terecht in de sectie hierboven.</p>
+</main>
+
+</body>
+</html>

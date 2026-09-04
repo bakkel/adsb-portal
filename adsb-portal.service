@@ -1,0 +1,14 @@
+[Unit]
+Description=ADS-B Portal
+After=network.target fr24feed.service
+
+[Service]
+Type=simple
+User=bakkel
+WorkingDirectory=/home/bakkel/adsb-portal
+ExecStart=/usr/bin/python3 /home/bakkel/adsb-portal/server.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
