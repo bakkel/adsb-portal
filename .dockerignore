@@ -1,0 +1,10 @@
+.git/
+.DS_Store
+__pycache__/
+*.pyc
+*.db
+data/
+
+# Private infra notes — never bake into an image
+CLAUDE.md
+adsb-receiver-piaware5.md

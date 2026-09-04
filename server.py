@@ -10,10 +10,10 @@ import json
 import os
 from datetime import datetime
 
-PORT       = 8081
-FR24_BASE  = "http://localhost:8754"
+PORT       = int(os.environ.get("PORT", 8081))
+FR24_BASE  = os.environ.get("FR24_BASE", "http://localhost:8754")
 STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
-DB_PATH    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fr24portal.db")
+DB_PATH    = os.environ.get("DB_PATH") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "fr24portal.db")
 
 # Flights.json field indices
 F_ALT, F_SPEED, F_SQK, F_GROUND, F_VRATE, F_CS = 4, 5, 6, 14, 15, 16
@@ -298,6 +298,7 @@ class ThreadingHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
 
 if __name__ == "__main__":
     os.makedirs(STATIC_DIR, exist_ok=True)
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     init_db()
     threading.Thread(target=recorder_loop, daemon=True).start()
     print(f"ADS-B Portal → http://0.0.0.0:{PORT}")

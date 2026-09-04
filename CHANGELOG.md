@@ -1,6 +1,9 @@
 # Changelog
 
 ## 2026-09-04
+- Added a footer link to the GitHub repo on all pages, and made the repository public.
+- Rewrote git history to permanently remove `CLAUDE.md` and `adsb-receiver-piaware5.md` from all past commits (they had only been untracked going forward, not purged from history) — required before making the repo public, since those files contained a real FR24 sharing key, FlightAware feeder/site ID, GPS location and SSH details. History was force-pushed; commit hashes changed as a result.
+- Added an alternative Docker deployment: `Dockerfile` + `docker-compose.yml` (host networking, so the container reaches `fr24feed` on `localhost:8754` without extra config) plus a `.dockerignore` that excludes the private infra notes. `server.py` now reads `PORT`, `FR24_BASE` and `DB_PATH` from environment variables (falling back to the existing defaults), so the same script runs unchanged on bare metal or in a container. This does not replace the existing systemd/rsync deployment — it's offered as an option for self-hosters who prefer Docker.
 - Translated the entire project (UI, README, changelog) to English and removed personal branding, in preparation for making the repository public on GitHub.
 - Renamed the portal from "FR24 Portal" to "ADS-B Portal" throughout the UI. The home page header now shows the feeder's own alias (e.g. `T-EHRD632`), fetched live from a new `GET /api/station` endpoint that reads `fr24feed`'s local `config.json` — only the alias is exposed server-side, the sharing key is never proxied to the client.
 - Merged the landing page into the map page — `portal.html` is now `index.html` and serves as the home page; the separate landing page was removed.

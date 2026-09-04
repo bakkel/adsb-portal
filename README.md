@@ -67,14 +67,25 @@ Edit the `User` and `WorkingDirectory` in `adsb-portal.service` to match your ow
 
 Adjust `REMOTE`, `REMOTE_DIR` and `SERVICE` at the top of the script to match your own setup.
 
+### Docker (alternative)
+
+Instead of the systemd service, you can run the portal in a container:
+
+```bash
+docker compose up -d --build
+```
+
+This uses `network_mode: host`, so the container can reach `fr24feed` at `http://localhost:8754` on the same machine without extra network configuration — the same reason `fr24feed` itself isn't containerized: it needs direct USB SDR access. The SQLite database is persisted to `./data/fr24portal.db` via a bind mount.
+
 ## Configuration
 
-At the top of `server.py`:
+At the top of `server.py` (or as environment variables, e.g. in `docker-compose.yml`):
 
 | Variable | Default | Description |
 |---|---|---|
 | `PORT` | `8081` | Port the portal listens on |
 | `FR24_BASE` | `http://localhost:8754` | Local FR24 feeder address |
+| `DB_PATH` | `<project dir>/fr24portal.db` | SQLite database location (`/data/fr24portal.db` in the Docker image) |
 
 Map center and zoom are set at the top of `static/index.html`:
 
@@ -99,6 +110,8 @@ adsb-portal/
 ├── server.py               Python HTTP server + SQLite recorder
 ├── adsb-portal.service      systemd unit file
 ├── deploy.sh               rsync-over-SSH deploy to the Pi
+├── Dockerfile              Container image for the portal (alternative to systemd)
+├── docker-compose.yml      Runs the portal via Docker with network_mode: host
 ├── static/
 │   ├── index.html          Live map (home page: map + table + popup + altitude filter + feed log)
 │   ├── stats.html          Statistics dashboard (Chart.js)
