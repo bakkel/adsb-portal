@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FR24 Portal — Aircraft Radar</title>
+<title>ADS-B Portal</title>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0d1117">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="FR24 Portal">
+<meta name="apple-mobile-web-app-title" content="ADS-B Portal">
 <link rel="apple-touch-icon" href="/icon-180.png">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -171,7 +171,7 @@ td.alt   { font-family: monospace; }
 <body>
 
 <header>
-  <h1>&#9992; <span>FR24</span> Portal</h1>
+  <h1 id="header-title">&#9992; ADS-B Portal</h1>
   <div id="update-time"><span id="feed-dot"></span>waiting…</div>
   <div id="nav-right">
     <a href="/stats.html" style="color:var(--muted);text-decoration:none;font-size:12px;padding:4px 10px;border:1px solid var(--border);border-radius:6px;white-space:nowrap">&#128202; Statistics</a>
@@ -562,6 +562,18 @@ function updateStats() {
     `<span id="feed-dot" class="ok"></span>${new Date().toLocaleTimeString('en-GB')}`;
 }
 
+// ── STATION ──────────────────────────────────────────────
+async function loadStation() {
+  try {
+    const { station } = await fetch('/api/station').then(r => r.json());
+    if (station) {
+      document.title = `ADS-B Portal — ${station}`;
+      document.getElementById('header-title').innerHTML =
+        `&#9992; ADS-B Portal <span style="color:var(--accent)">${station}</span>`;
+    }
+  } catch {}
+}
+
 // ── LOGS ─────────────────────────────────────────────────
 async function pollLogs() {
   try {
@@ -639,6 +651,7 @@ document.getElementById('sort-select').addEventListener('change', e => {
 
 poll();
 pollLogs();
+loadStation();
 setInterval(poll, POLL_MS);
 setInterval(pollLogs, 30000);
 </script>

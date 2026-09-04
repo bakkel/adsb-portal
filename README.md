@@ -5,6 +5,7 @@ A self-hosted web portal for your own ADS-B receiver on a Raspberry Pi. Shows li
 ## Features
 
 - **Live map** (`index.html`) — Leaflet.js with Esri World Dark Gray Canvas tiles, aircraft icons with rotation, colored by altitude
+- **Station badge** — the header automatically shows your feeder's alias (e.g. `T-EHRD632`), read from `fr24feed`'s local `config.json` via `/api/station`. Only the alias is exposed — the sharing key never leaves the server.
 - **Altitude filter** — legend bands are clickable toggles; show/hide aircraft per altitude band on the map and table; "↺ All" resets; collapsed by default on mobile
 - **10-minute trails** — position history as polylines per aircraft
 - **Aircraft table** — columns: Callsign · ICAO · Airline · Altitude (meters); click to open the popup on the map
@@ -26,7 +27,8 @@ Raspberry Pi
 ├── server.py (this portal)              :8081  ← serves the portal
 │   ├── GET /api/flights  → proxy to :8754/flights.json
 │   ├── GET /api/logs     → proxy to :8754/logs.bin
-│   └── GET /api/stats    → SQLite aggregates
+│   ├── GET /api/stats    → SQLite aggregates
+│   └── GET /api/station  → feeder alias (e.g. "T-EHRD632") from :8754/config.json
 └── fr24portal.db         (SQLite, created automatically)
 ```
 

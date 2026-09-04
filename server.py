@@ -222,6 +222,26 @@ def get_stats():
     }
 
 
+# ── STATION INFO ────────────────────────────────────────────────────────────
+
+def get_station():
+    """Feeder alias (e.g. 'T-EHRD632') from fr24feed's local config.json.
+
+    config.json also contains the fr24key (sharing key) in plain text, so we
+    deliberately extract only the alias here instead of proxying it whole.
+    """
+    try:
+        with urllib.request.urlopen(FR24_BASE + "/config.json", timeout=3) as r:
+            cfg = json.load(r)
+        monitor = cfg.get("monitor", {})
+        return {
+            "station": monitor.get("feed_alias") or None,
+            "status":  monitor.get("feed_status") or None,
+        }
+    except Exception:
+        return {"station": None, "status": None}
+
+
 # ── HTTP HANDLER ──────────────────────────────────────────────────────────────
 
 class ADSBHandler(http.server.SimpleHTTPRequestHandler):
@@ -235,6 +255,8 @@ class ADSBHandler(http.server.SimpleHTTPRequestHandler):
             self._proxy(FR24_BASE + "/logs.bin")
         elif self.path.startswith("/api/stats"):
             self._json(get_stats())
+        elif self.path.startswith("/api/station"):
+            self._json(get_station())
         else:
             super().do_GET()
 
