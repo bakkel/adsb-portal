@@ -8,12 +8,21 @@ import threading
 import time
 import json
 import os
+import html
 from datetime import datetime
 
 PORT       = int(os.environ.get("PORT", 8081))
 FR24_BASE  = os.environ.get("FR24_BASE", "http://localhost:8754")
 STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
 DB_PATH    = os.environ.get("DB_PATH") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "fr24portal.db")
+
+# Optional Umami analytics — only injected when both are set
+UMAMI_SCRIPT_URL = os.environ.get("UMAMI_SCRIPT_URL", "")
+UMAMI_WEBSITE_ID = os.environ.get("UMAMI_WEBSITE_ID", "")
+UMAMI_TAG = (
+    f'<script defer src="{html.escape(UMAMI_SCRIPT_URL)}" data-website-id="{html.escape(UMAMI_WEBSITE_ID)}"></script>\n'
+    if UMAMI_SCRIPT_URL and UMAMI_WEBSITE_ID else ""
+)
 
 # Flights.json field indices
 F_ALT, F_SPEED, F_SQK, F_GROUND, F_VRATE, F_CS = 4, 5, 6, 14, 15, 16
@@ -257,8 +266,27 @@ class ADSBHandler(http.server.SimpleHTTPRequestHandler):
             self._json(get_stats())
         elif self.path.startswith("/api/station"):
             self._json(get_station())
+        elif UMAMI_TAG and self._html_path():
+            self._html_with_umami(self._html_path())
         else:
             super().do_GET()
+
+    def _html_path(self):
+        path = self.translate_path(self.path)
+        if os.path.isdir(path):
+            path = os.path.join(path, "index.html")
+        return path if path.endswith(".html") and os.path.isfile(path) else None
+
+    def _html_with_umami(self, path):
+        with open(path, encoding="utf-8") as f:
+            page = f.read()
+        body = page.replace("</body>", UMAMI_TAG + "</body>", 1).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-cache")
+        self.end_headers()
+        self.wfile.write(body)
 
     def _proxy(self, url):
         try:

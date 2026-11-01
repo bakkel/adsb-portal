@@ -86,6 +86,8 @@ At the top of `server.py` (or as environment variables, e.g. in `docker-compose.
 | `PORT` | `8081` | Port the portal listens on |
 | `FR24_BASE` | `http://localhost:8754` | Local FR24 feeder address |
 | `DB_PATH` | `<project dir>/fr24portal.db` | SQLite database location (`/data/fr24portal.db` in the Docker image) |
+| `UMAMI_SCRIPT_URL` | *(empty)* | Optional: URL of your [Umami](https://umami.is) tracking script, e.g. `https://umami.example.com/script.js` |
+| `UMAMI_WEBSITE_ID` | *(empty)* | Optional: your Umami website ID. The tracking script is only added to pages when both Umami variables are set |
 
 Map center and zoom are set at the top of `static/index.html`:
 

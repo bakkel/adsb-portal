@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-01
+- Added optional Umami analytics: when `UMAMI_SCRIPT_URL` and `UMAMI_WEBSITE_ID` are both set, `server.py` adds the tracking script to all HTML pages. Without them, no tracking script is served.
+- `deploy.sh` now uses the `flight` SSH alias; the previous `flight2` alias no longer exists.
+
 ## 2026-09-04
 - Added an MIT `LICENSE`, now that the repository is public.
 - Added a footer link to the GitHub repo on all pages, and made the repository public.
