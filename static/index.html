@@ -167,6 +167,8 @@ td.alt   { font-family: monospace; }
   .leaflet-popup-content { min-width: 0; }
 }
 </style>
+<link rel="stylesheet" href="/themes.css">
+<script src="/theme.js"></script>
 </head>
 <body>
 
@@ -261,13 +263,20 @@ let sortMode = 'alt-desc';
 // ── MAP INIT ─────────────────────────────────────────────
 const map = L.map('map', { zoomControl: true }).setView(MAP_CENTER, MAP_ZOOM);
 
-L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+// Base map follows the theme's mode (dark/light) — see theme.js
+const esriTiles = (layer) =>
+  'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_' + PortalTheme.tileStyle() + '_Gray_' + layer + '/MapServer/tile/{z}/{y}/{x}';
+const baseLayer = L.tileLayer(esriTiles('Base'), {
   attribution: '&copy; Esri, HERE, Garmin, OSM',
   maxZoom: 19, maxNativeZoom: 16
 }).addTo(map);
-L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+const refLayer = L.tileLayer(esriTiles('Reference'), {
   maxZoom: 19, maxNativeZoom: 16
 }).addTo(map);
+window.addEventListener('portal-themechange', () => {
+  baseLayer.setUrl(esriTiles('Base'));
+  refLayer.setUrl(esriTiles('Reference'));
+});
 
 // Station marker
 L.circleMarker(MAP_CENTER, { radius: 6, color: '#388bfd', fillColor: '#388bfd', fillOpacity: .8, weight: 2 })

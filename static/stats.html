@@ -81,6 +81,8 @@ td.dur { color:var(--muted); }
   #last-updated { margin-left: 0; }
 }
 </style>
+<link rel="stylesheet" href="/themes.css">
+<script src="/theme.js"></script>
 </head>
 <body>
 <header>
@@ -161,14 +163,26 @@ td.dur { color:var(--muted); }
 </main>
 
 <script>
-const CHART_DEFAULTS = {
-  color: '#8b949e',
-  plugins: { legend: { display: false } },
-  scales: {
-    x: { ticks: { color:'#8b949e', font:{size:10} }, grid: { color:'#21262d' } },
-    y: { ticks: { color:'#8b949e', font:{size:10} }, grid: { color:'#21262d' }, beginAtZero:true }
-  }
-};
+// Chart colours follow the page's CSS variables, so a theme stylesheet can restyle them
+// (values must be 6-digit hex, alpha suffixes are appended below)
+const cssVar = (name, fallback) =>
+  getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+let C_MUTED, C_GRID, C_ACCENT, C_GREEN, CHART_DEFAULTS;
+function readChartColors() {
+  C_MUTED  = cssVar('--muted',  '#8b949e');
+  C_GRID   = cssVar('--bg3',    '#21262d');
+  C_ACCENT = cssVar('--accent', '#388bfd');
+  C_GREEN  = cssVar('--green',  '#3fb950');
+  CHART_DEFAULTS = {
+    color: C_MUTED,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color:C_MUTED, font:{size:10} }, grid: { color:C_GRID } },
+      y: { ticks: { color:C_MUTED, font:{size:10} }, grid: { color:C_GRID }, beginAtZero:true }
+    }
+  };
+}
+readChartColors();
 
 function fmt(n) { return n != null ? n.toLocaleString('en-GB') : '–'; }
 function fmtAlt(ft) { return ft ? ft.toLocaleString('en-GB') + ' ft' : '–'; }
@@ -192,13 +206,13 @@ function initCharts() {
 
   chartHours = new Chart(document.getElementById('chart-hours'), {
     type: 'bar',
-    data: { labels: [], datasets: [{ data: [], backgroundColor: '#388bfd99', borderColor:'#388bfd', borderWidth:1, borderRadius:3 }] },
+    data: { labels: [], datasets: [{ data: [], backgroundColor: C_ACCENT + '99', borderColor:C_ACCENT, borderWidth:1, borderRadius:3 }] },
     options: { ...baseOpts(), responsive:true, maintainAspectRatio:false }
   });
 
   chartWeek = new Chart(document.getElementById('chart-week'), {
     type: 'bar',
-    data: { labels: [], datasets: [{ data: [], backgroundColor: '#3fb95099', borderColor:'#3fb950', borderWidth:1, borderRadius:3 }] },
+    data: { labels: [], datasets: [{ data: [], backgroundColor: C_GREEN + '99', borderColor:C_GREEN, borderWidth:1, borderRadius:3 }] },
     options: { ...baseOpts(), responsive:true, maintainAspectRatio:false,
       plugins: { legend:{display:false}, tooltip:{callbacks:{label: c=>'avg: '+c.raw}} } }
   });
@@ -206,8 +220,8 @@ function initCharts() {
   chartTrend = new Chart(document.getElementById('chart-trend'), {
     type: 'line',
     data: { labels: [], datasets: [{
-      data: [], borderColor:'#388bfd', backgroundColor:'#388bfd22',
-      borderWidth:2, pointRadius:3, pointBackgroundColor:'#388bfd', fill:true, tension:.3
+      data: [], borderColor:C_ACCENT, backgroundColor:C_ACCENT + '22',
+      borderWidth:2, pointRadius:3, pointBackgroundColor:C_ACCENT, fill:true, tension:.3
     }]},
     options: { ...baseOpts(), responsive:true, maintainAspectRatio:false }
   });
@@ -274,9 +288,9 @@ async function load() {
     chartHours.data.labels   = t.by_hour.map((_,i) => `${String(i).padStart(2,'0')}:00`);
     chartHours.data.datasets[0].data = t.by_hour;
     chartHours.data.datasets[0].backgroundColor = t.by_hour.map((v,i) =>
-      i === peakHour ? '#d2992299' : '#388bfd44');
+      i === peakHour ? '#d2992299' : C_ACCENT + '44');
     chartHours.data.datasets[0].borderColor = t.by_hour.map((v,i) =>
-      i === peakHour ? '#d29922' : '#388bfd');
+      i === peakHour ? '#d29922' : C_ACCENT);
     chartHours.update();
 
     // 30-day trend
@@ -316,6 +330,14 @@ async function load() {
 initCharts();
 load();
 setInterval(load, 30000);
+
+// Rebuild the charts with the new colours when the theme changes
+window.addEventListener('portal-themechange', () => {
+  readChartColors();
+  [chartHours, chartWeek, chartTrend].forEach(c => c && c.destroy());
+  initCharts();
+  load();
+});
 </script>
 </body>
 </html>
