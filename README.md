@@ -86,6 +86,13 @@ At the top of `server.py` (or as environment variables, e.g. in `docker-compose.
 | `PORT` | `8081` | Port the portal listens on |
 | `FR24_BASE` | `http://localhost:8754` | Local FR24 feeder address |
 | `DB_PATH` | `<project dir>/fr24portal.db` | SQLite database location (`/data/fr24portal.db` in the Docker image) |
+| `UMAMI_SCRIPT_URL` | *(empty)* | Optional: URL of your [Umami](https://umami.is) tracking script, e.g. `https://umami.example.com/script.js` |
+| `UMAMI_WEBSITE_ID` | *(empty)* | Optional: your Umami website ID. The tracking script is only added to pages when both Umami variables are set |
+| `DEFAULT_THEME` | `dark` | Theme for first-time visitors: `dark`, `light` or `custom`. Visitors can switch themes with the button in the header; their choice is remembered in the browser |
+| `THEME_CSS_URL` | *(empty)* | Optional: stylesheet for a third, custom theme. It is only offered in the switcher when this is set. Style it under `html[data-theme="custom"]`, mainly by overriding the CSS variables (`--bg`, `--bg2`, `--bg3`, `--border`, `--text`, `--muted`, `--accent`, `--green`, …) as 6-digit hex colours |
+| `THEME_JS_URL` | *(empty)* | Optional: extra script for the custom theme, loaded at the end of every page (e.g. to add a logo to the header) |
+| `THEME_NAME` | `Custom` | Label of the custom theme in the switcher |
+| `THEME_BASE` | `light` | `light` or `dark`: which map tiles and overlay styling the custom theme builds on |
 
 Map center and zoom are set at the top of `static/index.html`:
 
